@@ -1,0 +1,24 @@
+{
+  "name": "pyth_oracle",
+  "version": "1.0.0",
+  "description": "An example Pyth oracle for SnarkyJS",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "type": "module",
+  "author": "Jason Steinhauser",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "coverage": "node --experimental-vm-modules --experimental-wasm-modules --experimental-wasm-threads node_modules/jest/bin/jest.js --coverage",
+    "format": "prettier --write --ignore-unknown **/*",
+    "prepare": "cd .. && husky install contracts/.husky",
+    "test": "node --experimental-vm-modules --experimental-wasm-modules --experimental-wasm-threads node_modules/jest/bin/jest.js",
+    "testw": "node --experimental-vm-modules --experimental-wasm-modules --experimental-wasm-threads node_modules/jest/bin/jest.js --watch",
+    "lint": "npx eslint src/* --fix"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.0",
+    "typescript": "^4.9.3"
+  }
+}
