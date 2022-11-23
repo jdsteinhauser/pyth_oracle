@@ -9,16 +9,13 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "coverage": "node --experimental-vm-modules --experimental-wasm-modules --experimental-wasm-threads node_modules/jest/bin/jest.js --coverage",
     "format": "prettier --write --ignore-unknown **/*",
-    "prepare": "cd .. && husky install contracts/.husky",
-    "test": "node --experimental-vm-modules --experimental-wasm-modules --experimental-wasm-threads node_modules/jest/bin/jest.js",
-    "testw": "node --experimental-vm-modules --experimental-wasm-modules --experimental-wasm-threads node_modules/jest/bin/jest.js --watch",
-    "lint": "npx eslint src/* --fix"
+    "keygen": "node ./scripts/keygen.js"
   },
   "dependencies": {
     "express": "^4.18.2",
     "node-fetch": "^3.3.0",
+    "snarkyjs": "^0.7.3",
     "typescript": "^4.9.3"
   }
 }

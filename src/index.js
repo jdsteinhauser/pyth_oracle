@@ -6,7 +6,7 @@ const PORT = 3000;
 
 const PYTH_ENDPOINT = 'https://xc-mainnet.pyth.network';
 // TODO: Update PK
-const ORACLE_PUBLIC_KEY = '0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43';
+const ORACLE_PUBLIC_KEY = 'B62qizxPbuzM1Ap9SCnoeX1d3nfynDDyjqAPFGNmEj1BX3pKJYQ5zdF';
 
 const feedIds = {
     BTC: '0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43',
