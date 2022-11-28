@@ -1,12 +1,14 @@
 import express from 'express';
 import fetch from 'node-fetch';
+import { PrivateKey, PublicKey, Signature } from 'snarkyjs';
 
 const app = express();
 const PORT = 3000;
 
 const PYTH_ENDPOINT = 'https://xc-mainnet.pyth.network';
-// TODO: Update PK
-const ORACLE_PUBLIC_KEY = 'B62qizxPbuzM1Ap9SCnoeX1d3nfynDDyjqAPFGNmEj1BX3pKJYQ5zdF';
+// FIXME: Don't put keys into static code in production!
+const ORACLE_PRIVATE_KEY = 'EKFYy6VdjW2eHrPeq76VQtC5cdtxEKFL5ctCDb4pBHNAMT2p3NTf';
+// const ORACLE_PUBLIC_KEY = 'B62qizxPbuzM1Ap9SCnoeX1d3nfynDDyjqAPFGNmEj1BX3pKJYQ5zdF';
 
 const feedIds = {
     BTC: '0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43',
@@ -24,16 +26,19 @@ async function fetchFromPyth(feedId) {
     // We're going to use exponentially-weighted moving average (EMA) price and confidence
     const { id } = feed; 
     const { conf, expo, price, publish_time } = feed["ema_price"];
-    const _conf = parseInt(conf);
-    const _price = parseInt(price);
-    const minPrice = (_price - _conf) * (10 ** expo);
-    const maxPrice = (_price - _conf) * (10 ** expo);
+
+    const meanPrice = parseInt(price) * (10 ** expo);
+    const confidenceInterval = parseInt(conf) * (10 ** expo);
+    const publishTime = publish_time;
+
+    const privateKey = PrivateKey.fromBase58(ORACLE_PRIVATE_KEY);
+    const publicKey = PublicKey.fromPrivateKey(privateKey).toBase58();
+    const signature = Signature.create(sk, [id, meanPrice, confidenceInterval, publishTime]).toJSON();
 
     return {
-        id,
-        minPrice,
-        maxPrice,
-        oracle_pk: ORACLE_PUBLIC_KEY,
+        data: { id, meanPrice, confidenceInterval, publishTime },
+        signature,
+        publicKey,
     };
 }
 
